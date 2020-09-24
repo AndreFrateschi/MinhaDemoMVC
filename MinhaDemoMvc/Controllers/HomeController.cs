@@ -24,15 +24,41 @@ public class HomeController : Controller
         }
         [Route("")]
         [Route("pagina-inicial")]
-        public IActionResult Index(string id, string categoria)
+        [Route("pagina-inicial/{id:int}/{categoria:guid}")]
+        public IActionResult Index(int id, Guid categoria)
         {
-            return View();
+
+            var filme = new Filme
+            {
+                Titulo = "oi",
+                DataLancamento = DateTime.Now,
+                Genero = null,
+                Avaliacao = "10",
+                Valor = 20000
+            };
+
+            return RedirectToAction("Privacy", filme);
+
+            //return View();
         }
         [Route("privacidade")]
         [Route("politica-de-privacidade")]
-        public IActionResult Privacy()
+        public IActionResult Privacy(Filme filme)
         {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            foreach (var error in ModelState.Values.SelectMany(m => m.Errors))
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+
+
             return View();
+            //return Json("{'nome':'Eduardo'}");
+            //return Content("qualquer coisa");
         }
         [Route("error-encontrado")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
